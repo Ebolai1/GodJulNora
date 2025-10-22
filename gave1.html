@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gave 2 til Nora 🎁</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, black 0%, black 100%);
+      font-family: "Segoe UI", sans-serif;
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-top: 2rem;
+      font-size: 2.5rem;
+      text-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem;
+      margin-bottom: 5rem;
+    }
+    .gallery:hover img {
+      transform: scale(1);
+    }
+
+    /* --- Bildecontainer med tekstoverlay --- */
+    .photo {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      cursor: pointer;
+
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .photo:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.7);
+    }
+
+    .caption {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-shadow: 0 2px 10px #000;
+      transition: opacity 0.4s ease;
+    }
+
+    .photo:hover .caption {
+      opacity: 1;
+    }
+
+    /* --- Tilbakeknapp --- */
+    .back {
+      display: inline-block;
+      margin: 2rem;
+      background: #fff;
+      color: black;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .back:hover { background: #ffe6ea; }
+
+    /* --- Snø --- */
+    #snow {
+      position: fixed; inset: 0; pointer-events:none; z-index: 10; overflow:hidden;
+    }
+    .snowflake {
+      position: absolute; top: -10px;
+      width: var(--size); height: var(--size);
+      border-radius: 50%; background: #fff;
+      opacity: var(--alpha, 0.9);
+      filter: drop-shadow(0 0 6px #ffffff55);
+      animation: fall var(--dur) linear forwards,
+      sway var(--sway-dur) ease-in-out infinite;
+    }
+    @keyframes fall { to { transform: translateY(100vh) translateX(var(--end-x, 0)); } }
+    @keyframes sway { from { margin-left: -10px; } 50% { margin-left: 10px; } to { margin-left: -10px; } }
+  </style>
+</head>
+<body>
+<h1>Våre bilder (Nora vi må ta bedre bilder) ️</h1>
+
+<div class="gallery">
+  <div class="photo">
+    <img src="Nora1.jpg" alt="Bilde 1" />
+    <div class="caption">Må bytte til rød neste gang</div>
+  </div>
+
+  <div class="photo">
+    <img src="Nora2.jpg" alt="Bilde 2" />
+    <div class="caption">Fine folk</div>
+  </div>
+
+  <div class="photo">
+    <img src="Nora3.jpg" alt="Bilde 3" />
+    <div class="caption">Dagen jeg ble forelska</div>
+  </div>
+
+  <div class="photo">
+    <img src="Nora4.jpg" alt="Bilde 4" />
+    <div class="caption">Vårt første bilde</div>
+  </div>
+
+  <div class="photo">
+    <img src="Nora5.jpg" alt="Bilde 5" />
+    <div class="caption">Vårt faktisk første bilde</div>
+  </div>
+</div>
+
+<a class="back" href="index.html">Tilbake</a>
+
+<div id="snow"></div>
+
+<script>
+  const snowRoot = document.getElementById("snow");
+  function createSnowflake() {
+    const flake = document.createElement("i");
+    flake.className = "snowflake";
+    const size = Math.random() * 6 + 2;
+    const startX = Math.random() * window.innerWidth;
+    const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
+    const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
+    const endX = (Math.random() * 60 - 30) + "px";
+    const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
+    flake.style.left = startX + "px";
+    flake.style.setProperty("--size", size + "px");
+    flake.style.setProperty("--sway-dur", swayDur);
+    flake.style.setProperty("--dur", fallDur);
+    flake.style.setProperty("--end-x", endX);
+    flake.style.setProperty("--alpha", alpha);
+    snowRoot.appendChild(flake);
+    setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
+  }
+  setInterval(createSnowflake, 120);
+  for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
+</script>
+</body>
+</html>

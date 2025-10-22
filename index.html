@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>God jul Nora</title>
+  <style>
+    /* --- Grunnstil --- */
+    :root {
+      --bg: linear-gradient(180deg, black 0%, midnightblue 100%);
+      --btn-bg: #ffffff;
+      --btn-text: #b3002d;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg);
+      color: white;
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 2rem;
+      text-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      background: var(--btn-bg);
+      color: black;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.3rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #ffe6ea;
+    }
+
+    /* --- Snø --- */
+    #snow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #fff;
+      opacity: var(--alpha, 0.9);
+      filter: drop-shadow(0 0 6px #ffffff55);
+      animation: fall var(--dur) linear forwards,
+      sway var(--sway-dur) ease-in-out infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh) translateX(var(--end-x, 0)); }
+    }
+    @keyframes sway {
+      from { margin-left: -10px; }
+      50% { margin-left: 10px; }
+      to { margin-left: -10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .snowflake { animation: none; }
+    }
+  </style>
+</head>
+<body>
+<h1>Jeg elsker deg, Nora ❤️</h1>
+
+<div class="buttons">
+  <button id="gift1">Gave 1</button>
+  <button id="gift2">Gave 2</button>
+</div>
+
+<div id="snow" aria-hidden="true"></div>
+
+<script>
+  // Snøeffekt
+  const snowRoot = document.getElementById("snow");
+  let snowOn = true;
+
+  function createSnowflake() {
+    if (!snowOn || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const flake = document.createElement("i");
+    flake.className = "snowflake";
+    const size = Math.random() * 6 + 2;
+    const startX = Math.random() * window.innerWidth;
+    const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
+    const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
+    const endX = (Math.random() * 60 - 30) + "px";
+    const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
+
+    flake.style.left = startX + "px";
+    flake.style.setProperty("--size", size + "px");
+    flake.style.setProperty("--sway-dur", swayDur);
+    flake.style.setProperty("--dur", fallDur);
+    flake.style.setProperty("--end-x", endX);
+    flake.style.setProperty("--alpha", alpha);
+
+    snowRoot.appendChild(flake);
+    setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
+  }
+
+  const snowTimer = setInterval(createSnowflake, 120);
+  for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
+
+  // Gaveknapper
+  document.getElementById("gift1").addEventListener("click", () => {
+    window.location.href = "gave1.html";
+  });
+
+  document.getElementById("gift2").addEventListener("click", () => {
+    // sender til neste side
+    window.location.href = "gave2.html";
+  });
+</script>
+</body>
+</html>

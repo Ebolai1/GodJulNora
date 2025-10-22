@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gave 2 til Nora 💌</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, black 0%, black 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ❤️ Hjerteanimasjon */
+    .heart {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      background-color: darkred;
+      transform: rotate(-45deg);
+      animation: pulse 1.2s ease-in-out infinite, fadeOut 2s ease 4s forwards;
+      z-index: 20;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background-color: darkred;
+      border-radius: 50%;
+    }
+    .heart::before { top: -75px; left: 0; }
+    .heart::after  { left: 75px; top: 0; }
+
+    @keyframes pulse {
+      0%, 100% { transform: rotate(-45deg) scale(1.4); }
+      50% { transform: rotate(-45deg) scale(1.1); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: scale(15) rotate(-45deg); }
+    }
+
+    /* 💌 Brevtekst */
+    .letter {
+      opacity: 0;
+      max-width: 600px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: left;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      transition: opacity 2s ease, transform 2s ease;
+      transform: translateY(40px);
+      z-index: 5;
+    }
+    .letter.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-top: 0;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: #fff;
+      color: #b3002d;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .back:hover { background: #ffe6ea; }
+
+    /* ❄️ Snø */
+    #snow {
+      position: fixed; inset: 0; pointer-events:none; z-index: 1; overflow:hidden;
+    }
+    .snowflake {
+      position: absolute; top: -10px;
+      width: var(--size); height: var(--size);
+      border-radius: 50%; background: #fff;
+      opacity: var(--alpha, 0.9);
+      filter: drop-shadow(0 0 6px #ffffff55);
+      animation: fall var(--dur) linear forwards,
+      sway var(--sway-dur) ease-in-out infinite;
+    }
+    @keyframes fall { to { transform: translateY(100vh) translateX(var(--end-x, 0)); } }
+    @keyframes sway { from { margin-left: -10px; } 50% { margin-left: 10px; } to { margin-left: -10px; } }
+  </style>
+</head>
+<body>
+
+<!-- ❤️ Hjerte som fader ut -->
+<div class="heart"></div>
+
+<!-- 💌 Brevet som vises etterpå -->
+<div class="letter" id="letter">
+  <h1>Nora</h1>
+  <p>
+    Kjære Nora, disse fire månedene med deg har vært noen av de beste i livet mitt.
+    Jeg er så glad for at jeg får dele studietiden min med deg, og jeg blir mer og mer
+    forelsket i deg for hver dag som går. Det føles nesten ut som at vi har kjent hverandre lenger,
+    Og jeg er veldig takknemlig for at du er i livet mitt.
+  </p>
+  <p>
+     Håper du får en fantastisk jul med den hyggelige familien din. ❤<br>
+    “Love knows not distance; it hath no continent;
+    its eyes are for the stars.”
+    — Gilbert Parker<br><br><br>
+    Alltid din,<br>
+    Nikolai❤<div class="letter">`.
+
+  </p>
+
+  <p style="text-align: right;">– Din ❤️</p>
+
+  <a class="back" href="index.html">Tilbake</a>
+</div>
+
+  <div id="snow"></div>
+
+  <button id="startMusic"
+          style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+         background:white;color:black;padding:1rem 2rem;border:none;
+         border-radius:12px;font-size:1.1rem;cursor:pointer;z-index:999;">
+    ▶ En fin melodi
+  </button>
+
+  <audio id="bgmusic" src="Viktor.mp3" preload="auto" loop></audio>
+
+  <script>
+    // Snøeffekt
+    const snowRoot = document.getElementById("snow");
+    function createSnowflake() {
+      const flake = document.createElement("i");
+      flake.className = "snowflake";
+      const size = Math.random() * 6 + 2;
+      const startX = Math.random() * window.innerWidth;
+      const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
+      const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
+      const endX = (Math.random() * 60 - 30) + "px";
+      const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
+      flake.style.left = startX + "px";
+      flake.style.setProperty("--size", size + "px");
+      flake.style.setProperty("--sway-dur", swayDur);
+      flake.style.setProperty("--dur", fallDur);
+      flake.style.setProperty("--end-x", endX);
+      flake.style.setProperty("--alpha", alpha);
+      snowRoot.appendChild(flake);
+      setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
+    }
+    setInterval(createSnowflake, 120);
+    for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
+
+    // 💖 Vis brevet etter at hjertet er borte
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("letter").classList.add("visible");
+        document.querySelector(".heart").remove();
+      }, 5000); // ca. 2.5 sekunder
+    });
+
+    const btn = document.getElementById("startMusic");
+    const music = document.getElementById("bgmusic");
+    music.volume = 0.4;
+
+    btn.addEventListener("click", () => {
+      music.play().then(()=>{
+        btn.remove(); // fjern knappen etter start
+      });
+    });
+  </script>
+
+</body>
+</html>
