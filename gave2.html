@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="no">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gave 2 til Nora 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -15,13 +15,14 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      font-family: "Arial", sans-serif;
     }
 
     /* ❤️ Hjerteanimasjon */
     .heart {
       position: fixed;
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       background-color: darkred;
       transform: rotate(-45deg);
       animation: pulse 1.2s ease-in-out infinite, fadeOut 2s ease 4s forwards;
@@ -31,13 +32,13 @@
     .heart::after {
       content: "";
       position: absolute;
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       background-color: darkred;
       border-radius: 50%;
     }
-    .heart::before { top: -75px; left: 0; }
-    .heart::after  { left: 75px; top: 0; }
+    .heart::before { top: -60px; left: 0; }
+    .heart::after  { left: 60px; top: 0; }
 
     @keyframes pulse {
       0%, 100% { transform: rotate(-45deg) scale(1.4); }
@@ -50,13 +51,14 @@
     /* 💌 Brevtekst */
     .letter {
       opacity: 0;
-      max-width: 40vh;
+      width: 90%;
+      max-width: 500px;
       background: rgba(255,255,255,0.1);
       backdrop-filter: blur(6px);
-      border-radius: 4rem;
-      padding: 2rem;
+      border-radius: 2rem;
+      padding: 1.5rem;
       text-align: left;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       line-height: 1.7;
       box-shadow: 0 10px 40px rgba(0,0,0,0.3);
       transition: opacity 2s ease, transform 2s ease;
@@ -70,8 +72,9 @@
 
     h1 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin-top: 0;
+      font-family: "Great Vibes", cursive;
     }
 
     .back {
@@ -102,14 +105,37 @@
     }
     @keyframes fall { to { transform: translateY(100vh) translateX(var(--end-x, 0)); } }
     @keyframes sway { from { margin-left: -10px; } 50% { margin-left: 10px; } to { margin-left: -10px; } }
+
+    /* 📱 Mobiljustering */
+    @media (max-width: 600px) {
+      .heart {
+        width: 80px;
+        height: 80px;
+      }
+      .heart::before,
+      .heart::after {
+        width: 80px;
+        height: 80px;
+      }
+      .heart::before { top: -40px; }
+      .heart::after { left: 40px; }
+
+      .letter {
+        padding: 1.2rem;
+        font-size: 1rem;
+        border-radius: 1.5rem;
+      }
+      h1 { font-size: 1.5rem; }
+      .back { font-size: 1rem; padding: 0.7rem 1.2rem; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ❤️ Hjerte som fader ut -->
+<!-- ❤️ Hjerte -->
 <div class="heart"></div>
 
-<!-- 💌 Brevet som vises etterpå -->
+<!-- 💌 Brev -->
 <div class="letter" id="letter">
   <h1>Nora</h1>
   <p>
@@ -128,18 +154,17 @@
     - Latteren din<br>
     - Du er målrettet i livet<br>
   </p>
-  <p>
-     Håper du får en fantastisk jul med den hyggelige familien din. ❤<br>
- </p>
 
-  
-    <p>
+  <p>
+    Håper du får en fantastisk jul med den hyggelige familien din. ❤
+  </p>
+
+  <p>
     “Love knows not distance; it hath no continent;
     its eyes are for the stars.”
-    — Gilbert Parker<br><br><br>
+    — Gilbert Parker<br><br>
     Alltid din,<br>
-    Nikolai❤<div class="letter">`.
-
+    Nikolai❤
   </p>
 
   <p style="text-align: right;">– Din ❤️</p>
@@ -147,63 +172,59 @@
   <a class="back" href="index.html">Tilbake</a>
 </div>
 
-  <div id="snow"></div>
+<div id="snow"></div>
 
-  <button id="startMusic"
-          style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-         background:white;color:black;padding:1rem 2rem;border:none;
-         border-radius:12px;font-size:1.1rem;cursor:pointer;z-index:999;">
-    ▶ En fin melodi
-  </button>
+<button id="startMusic"
+        style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+       background:white;color:black;padding:1rem 2rem;border:none;
+       border-radius:12px;font-size:1.1rem;cursor:pointer;z-index:999;">
+  ▶ En fin melodi
+</button>
 
-  <audio id="bgmusic" src="Viktor.mp3" preload="auto" loop></audio>
+<audio id="bgmusic" src="Viktor.mp3" preload="auto" loop></audio>
 
-  <script>
-    // Snøeffekt
-    const snowRoot = document.getElementById("snow");
-    function createSnowflake() {
-      const flake = document.createElement("i");
-      flake.className = "snowflake";
-      const size = Math.random() * 6 + 2;
-      const startX = Math.random() * window.innerWidth;
-      const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
-      const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
-      const endX = (Math.random() * 60 - 30) + "px";
-      const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
-      flake.style.left = startX + "px";
-      flake.style.setProperty("--size", size + "px");
-      flake.style.setProperty("--sway-dur", swayDur);
-      flake.style.setProperty("--dur", fallDur);
-      flake.style.setProperty("--end-x", endX);
-      flake.style.setProperty("--alpha", alpha);
-      snowRoot.appendChild(flake);
-      setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
-    }
-    setInterval(createSnowflake, 120);
-    for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
+<script>
+  // Snøeffekt
+  const snowRoot = document.getElementById("snow");
+  function createSnowflake() {
+    const flake = document.createElement("i");
+    flake.className = "snowflake";
+    const size = Math.random() * 6 + 2;
+    const startX = Math.random() * window.innerWidth;
+    const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
+    const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
+    const endX = (Math.random() * 60 - 30) + "px";
+    const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
+    flake.style.left = startX + "px";
+    flake.style.setProperty("--size", size + "px");
+    flake.style.setProperty("--sway-dur", swayDur);
+    flake.style.setProperty("--dur", fallDur);
+    flake.style.setProperty("--end-x", endX);
+    flake.style.setProperty("--alpha", alpha);
+    snowRoot.appendChild(flake);
+    setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
+  }
+  setInterval(createSnowflake, 120);
+  for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
 
-    // 💖 Vis brevet etter at hjertet er borte
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("letter").classList.add("visible");
-        document.querySelector(".heart").remove();
-      }, 5000); // ca. 2.5 sekunder
+  // 💖 Vis brevet etter at hjertet er borte
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.getElementById("letter").classList.add("visible");
+      document.querySelector(".heart").remove();
+    }, 5000);
+  });
+
+  const btn = document.getElementById("startMusic");
+  const music = document.getElementById("bgmusic");
+  music.volume = 0.4;
+
+  btn.addEventListener("click", () => {
+    music.play().then(()=>{
+      btn.remove();
     });
-
-    const btn = document.getElementById("startMusic");
-    const music = document.getElementById("bgmusic");
-    music.volume = 0.4;
-
-    btn.addEventListener("click", () => {
-      music.play().then(()=>{
-        btn.remove(); // fjern knappen etter start
-      });
-    });
-  </script>
+  });
+</script>
 
 </body>
 </html>
-
-
-
-
