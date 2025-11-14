@@ -87,6 +87,29 @@
       `${h} timer, ${m} minutter og ${s} sekunder`;
   }
 
+    // Snøeffekt
+  const snowRoot = document.getElementById("snow");
+  function createSnowflake() {
+    const flake = document.createElement("i");
+    flake.className = "snowflake";
+    const size = Math.random() * 6 + 2;
+    const startX = Math.random() * window.innerWidth;
+    const swayDur = (Math.random() * 3 + 2).toFixed(2) + "s";
+    const fallDur = (Math.random() * 6 + 6).toFixed(2) + "s";
+    const endX = (Math.random() * 60 - 30) + "px";
+    const alpha = (Math.random() * 0.6 + 0.3).toFixed(2);
+    flake.style.left = startX + "px";
+    flake.style.setProperty("--size", size + "px");
+    flake.style.setProperty("--sway-dur", swayDur);
+    flake.style.setProperty("--dur", fallDur);
+    flake.style.setProperty("--end-x", endX);
+    flake.style.setProperty("--alpha", alpha);
+    snowRoot.appendChild(flake);
+    setTimeout(() => flake.remove(), parseFloat(fallDur) * 1000);
+  }
+  setInterval(createSnowflake, 120);
+  for (let i = 0; i < 30; i++) setTimeout(createSnowflake, i * 80);
+
   setInterval(updateTimer, 1000);
   updateTimer();
 </script>
