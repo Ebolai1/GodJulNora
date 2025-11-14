@@ -35,6 +35,22 @@
       color: #fff;
       text-decoration: underline;
       font-size: 1.2rem;
+
+       /* --- Snø --- */
+    #snow {
+      position: fixed; inset: 0; pointer-events:none; z-index: 10; overflow:hidden;
+    }
+    .snowflake {
+      position: absolute; top: -10px;
+      width: var(--size); height: var(--size);
+      border-radius: 50%; background: #fff;
+      opacity: var(--alpha, 0.9);
+      filter: drop-shadow(0 0 6px #ffffff55);
+      animation: fall var(--dur) linear forwards,
+      sway var(--sway-dur) ease-in-out infinite;
+    }
+    @keyframes fall { to { transform: translateY(100vh) translateX(var(--end-x, 0)); } }
+    @keyframes sway { from { margin-left: -10px; } 50% { margin-left: 10px; } to { margin-left: -10px; } }
     }
   </style>
 </head>
